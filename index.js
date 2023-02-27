@@ -5,8 +5,8 @@ import Map, {Source, Layer} from 'react-map-gl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoiZGdvcmhlIiwiYSI6ImNsZWo1YmcxdjA2cHYzcG52OHlybzZqMnUifQ.YcADDs9WU7XpOFxcNNlK7Q'; // Set your mapbox token here
-let link = "https://raw.githubusercontent.com/dgorhe/folsommaps/main/geojson/folsom-border.geojson"
+const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN;
+let link = "https://raw.githubusercontent.com/dgorhe/folsommaps/main/geojson/folsom-border.geojson";
 
 const layerStyle = {
     id: 'border',
