@@ -21,3 +21,7 @@ If you would like to contribute, please get in touch at darveshgorhe@gmail.com, 
 10. Design a logo.
 
 If you feel like you can help with any of these things and have concrete ideas, please reach out. Otherwise, please hold on while this project scales and becomes more organized.
+
+## References & Resources
+https://mygeodata.cloud/
+- Source of the `geojson/folsom-border.geojson` file
