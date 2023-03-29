@@ -15,7 +15,7 @@
                 "containerPort": 8080,
                 "resources": {
                     "limits": {
-                        "memory": "256Mi"
+                        "memory": "1024Mi"
                     }
                 }
             },
