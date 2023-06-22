@@ -1,12 +1,14 @@
 /* global document */
 import * as React from 'react';
+import ReactDOM from 'react-dom';
 import {useState, useEffect} from 'react';
 import {createRoot} from 'react-dom/client';
 import Map, {Source, Layer} from 'react-map-gl';
+import Loader from './Loader';
 import './index.css'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-let link = "https://raw.githubusercontent.com/dgorhe/folsommaps/main/geojson/folsom-border.geojson";
+let link = "https://raw.githubusercontent.com/dgorhe/folsommaps/main/geojson/folsom.geojson";
 let BASE = "https://us-central1-folsommaps.cloudfunctions.net/";
 
 const layerStyle = {
@@ -64,22 +66,36 @@ function MapComponent({link}) {
         }
     }, [token]);
     
-    return token ? (
-        <Map
-            initialViewState={{
-                latitude: 38.6780,
-                longitude: -121.1581,
-                zoom: 11.5
-            }}
-            style={{width: "100vw", height: "100vh"}}
-            mapStyle="mapbox://styles/mapbox/streets-v9"
-            mapboxAccessToken={token}
-        >
-            <GeoComponent link={link} />
-        </Map>
-    ) : (
-        <div>Loading map...</div>
-    );
+    if (token) {
+        return (
+            <Map
+                initialViewState={{
+                    latitude: 38.6780,
+                    longitude: -121.1581,
+                    zoom: 11.5
+                }}
+                style={{width: "100vw", height: "100vh"}}
+                mapStyle="mapbox://styles/mapbox/streets-v8"
+                mapboxAccessToken={token}
+            >
+                <GeoComponent link={link} />
+            </Map>
+        )
+    } else {
+        return (
+            <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh', // Adjust this value to control the height of the centered content
+              }}
+            >
+              <Loader />
+            </div>
+        );
+    }
 }
 
 function Root() {
