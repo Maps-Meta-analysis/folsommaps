@@ -31,7 +31,7 @@ module.exports = {
     extensions: ['.js', '.jsx'] // Added extension for JSX files
   },
   plugins: [
-    new HtmlWebpackPlugin({ title: 'react-map-gl Example' }),
+    new HtmlWebpackPlugin({ title: 'Folsom Maps' }),
     new webpack.EnvironmentPlugin({ MapboxAccessToken: '' })
   ]
 };
