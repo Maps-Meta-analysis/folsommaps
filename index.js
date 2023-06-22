@@ -8,34 +8,17 @@ import Loader from './Loader';
 import './index.css'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-let link = "https://raw.githubusercontent.com/dgorhe/folsommaps/main/geojson/folsom.geojson";
+let link = "https://raw.githubusercontent.com/dgorhe/folsommaps/main/geojson/folsom-border.geojson";
 let BASE = "https://us-central1-folsommaps.cloudfunctions.net/";
 
 const layerStyle = {
     id: 'border',
     type: 'line',
     paint: {
-        'line-width': 5,
+        'line-width': 2,
         'line-color': '#007cbf'
     }
 };
-
-function HelloWorld( {} ) {
-    const [helloWorld, setHelloWorld] = useState(null);
-
-    useEffect(() => {
-        fetch(BASE + 'readMapboxToken')
-            .then(response => (response.json()))
-            .then(data => setHelloWorld(data["token"]))
-    }, []);
-
-    return (
-        <div>
-            <h1>Hello World</h1>
-            <p>{helloWorld}</p>
-        </div>
-    );
-}
 
 function GeoComponent({link}) {
     const [data, setData] = React.useState(null);
