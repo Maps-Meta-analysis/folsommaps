@@ -8,6 +8,7 @@ import Loader from './Loader';
 import './index.css'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+// this is a test comment to check github project stuff
 let link = "https://raw.githubusercontent.com/dgorhe/folsommaps/main/geojson/folsom-border.geojson";
 let BASE = "https://us-central1-folsommaps.cloudfunctions.net/";
 
