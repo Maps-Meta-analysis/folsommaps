@@ -2,4 +2,18 @@ body {
     margin: 0;
     padding: 0;
   }
+
+.map-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.control-panel {
+    position: absolute;
+    z-index: 1000;  /* Adjust this as needed */
+    top: 10px;  /* Adjust as needed */
+    left: 10px;  /* Adjust as needed */
+}
+
   
