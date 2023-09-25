@@ -1,42 +1,56 @@
 /* global document */
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import {useState, useEffect} from 'react';
 import {createRoot} from 'react-dom/client';
 import Map, {Source, Layer} from 'react-map-gl';
-import Loader from './Loader';
+import Loader from './loader';
+import ControlPanel from './control-panel';
 import './index.css'
+import * as style from './style';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-let link = "https://raw.githubusercontent.com/dgorhe/folsommaps/main/geojson/folsom-border.geojson";
-let BASE = "https://us-central1-folsommaps.cloudfunctions.net/";
+const branch = "toggle-data-elements";
+let BASE = `https://us-central1-folsommaps.cloudfunctions.net/`;
 
-const layerStyle = {
-    id: 'border',
-    type: 'line',
-    paint: {
-        'line-width': 2,
-        'line-color': '#007cbf'
-    }
-};
+const GEOJSON = {
+    'Folsom Border': `https://raw.githubusercontent.com/dgorhe/folsommaps/${branch}/geojson/folsom-border.geojson`,
+    'Voting Districts': `https://raw.githubusercontent.com/dgorhe/folsommaps/${branch}/geojson/test-voting-districts.geojson`,
+    'FCUSD Boundaries': `https://raw.githubusercontent.com/dgorhe/folsommaps/${branch}/geojson/test-fcusd-boundaries.geojson`,
+}
 
-function GeoComponent({link}) {
+function GeoComponent({name, link}) {
     const [data, setData] = React.useState(null);
     
     React.useEffect(() => {
-        fetch(link)
-            .then(response => response.json())
-            .then(data => setData(data));
+        if (link !== null) {
+            fetch(link)
+                .then(response => response.json())
+                .then(data => { setData(data);});
+        }
     }, [link]);
-    
-    return (
-        <Source type="geojson" data={data}>
-            <Layer {...layerStyle} />
-        </Source>
-    );
+
+    if (name == "Folsom Border") {
+        return (
+            <Source type="geojson" data={data}>
+                <Layer {...style.borderLayerStyle} />
+            </Source>
+        );
+    } else if (name == "Voting Districts") {
+        return (
+            <Source type="geojson" data={data}>
+                <Layer {...style.votingDistrictsLayerStyle} />
+            </Source>
+        );
+    } else if (name == "FCUSD Boundaries") {
+        return (
+            <Source type="geojson" data={data}>
+                <Layer {...style.fcusdBoundariesLayerStyle} />
+            </Source>
+        );
+    }
 }
 
-function MapComponent({link}) {
+function MapComponent({activeOverlays}) {
     const [token, setToken] = useState(null);
 
     useEffect(() => {
@@ -61,7 +75,9 @@ function MapComponent({link}) {
                 mapStyle="mapbox://styles/mapbox/streets-v8"
                 mapboxAccessToken={token}
             >
-                <GeoComponent link={link} />
+                <GeoComponent name={'Folsom Border'} link={activeOverlays['Folsom Border']} />
+                {activeOverlays['Voting Districts'] && <GeoComponent name={'Voting Districts'} link={activeOverlays['Voting Districts']} />}
+                {activeOverlays['FCUSD Boundaries'] && <GeoComponent name={'FCUSD Boundaries'} link={activeOverlays['FCUSD Boundaries']} />}
             </Map>
         )
     } else {
@@ -82,8 +98,43 @@ function MapComponent({link}) {
 }
 
 function Root() {
+    const [activeOverlays, setActiveOverlays] = useState({
+        'Folsom Border': GEOJSON['Folsom Border'], 
+        'Voting Districts': null, 
+        'FCUSD Boundaries': null
+    });
+
+    const [activeButtons, setActiveButtons] = useState({
+        'Folsom Border': true,
+        'Voting Districts': false,
+        'FCUSD Boundaries': false
+    });
+
+    const handleButtonChanged = (event) => {
+        const { name } = event.currentTarget;
+    
+        // Update activeButtons based on current state
+        setActiveButtons(prevActiveButtons => {
+            const newState = { ...prevActiveButtons, [name]: !prevActiveButtons[name] };
+    
+            // Update activeOverlays based on the new activeButtons state
+            setActiveOverlays(prevActiveOverlays => {
+                return {
+                    ...prevActiveOverlays,
+                    [name]: newState[name] ? GEOJSON[name] : null
+                };
+            });
+    
+            return newState;
+        });
+    }
+    
+    
     return (
-        <MapComponent link = {link}></MapComponent>
+        <div className='map-container'>
+            <ControlPanel activeButtons={activeButtons} handleButtonChanged={handleButtonChanged} />
+            <MapComponent activeOverlays={activeOverlays}/>
+        </div>
     );
 }
 
@@ -92,4 +143,5 @@ const root = createRoot(
         document.createElement('div')
     )
 );
+
 root.render(<Root/>);
