@@ -1,18 +1,18 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React from 'react';
+import {motion} from 'framer-motion';
 
 const loadingContainer = {
-  width: "4rem",
-  height: "4rem",
-  display: "flex",
-  justifyContent: "space-around",
+  width: '4rem',
+  height: '4rem',
+  display: 'flex',
+  justifyContent: 'space-around',
 };
 const loadingCircle = {
-  display: "block",
-  width: "1rem",
-  height: "1rem",
-  backgroundColor: "#3A36DB",
-  borderRadius: "0.5rem",
+  display: 'block',
+  width: '1rem',
+  height: '1rem',
+  backgroundColor: '#3A36DB',
+  borderRadius: '0.5rem',
 };
 
 const loadingContainerVariants = {
@@ -30,17 +30,17 @@ const loadingContainerVariants = {
 
 const loadingCircleVariants = {
   start: {
-    y: "0%",
+    y: '0%',
   },
   end: {
-    y: "60%",
+    y: '60%',
   },
 };
-const loadingCircleTransition = { 
-    duration: 0.4, 
-    repeatType: 'reverse', 
-    repeat: Infinity, 
-    ease: 'easeInOut', 
+const loadingCircleTransition = {
+  duration: 0.4,
+  repeatType: 'reverse',
+  repeat: Infinity,
+  ease: 'easeInOut',
 };
 
 const Loader = () => {
